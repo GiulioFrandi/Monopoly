@@ -1,0 +1,13 @@
+com\mycompany\monopolyumlgfr\autenticazione\AutentificazioneConsole.class
+com\mycompany\monopolyumlgfr\autenticazione\LoginSuccessListener.class
+com\mycompany\monopolyumlgfr\gioco\GiocoUI.class
+com\mycompany\monopolyumlgfr\gioco\Proprietà.class
+com\mycompany\monopolyumlgfr\autenticazione\Utente.class
+com\mycompany\monopolyumlgfr\gioco\GiocoConsole.class
+com\mycompany\monopolyumlgfr\gioco\Partita.class
+com\mycompany\monopolyumlgfr\autenticazione\Sistema.class
+com\mycompany\monopolyumlgfr\gioco\Tabellone.class
+com\mycompany\monopolyumlgfr\autenticazione\DatabaseUtenti.class
+com\mycompany\monopolyumlgfr\autenticazione\AutentificazioneUI.class
+com\mycompany\monopolyumlgfr\gioco\Giocatore.class
+com\mycompany\monopolyumlgfr\MonopolyUMLGFR.class
