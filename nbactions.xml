@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-Run Game</actionName>
+        <displayName>Run Game</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>compile</goal>
+            <goal>exec:java</goal>
+
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-Generate Javadoc with Test</actionName>
+        <displayName>Generate Javadoc with Test</displayName>
+        <goals>
+            <goal>javadoc:test-javadoc</goal>
+        </goals>
+    </action>
+
+    <action>
+        <actionName>CUSTOM-Compile With Full Eror Stack</actionName>
+        <displayName>Compile With Full Eror Stack</displayName>
+        <goals>
+            <goal>exec:java</goal>
+            <goal>-e</goal>
+        </goals>
+    </action>
+</actions>

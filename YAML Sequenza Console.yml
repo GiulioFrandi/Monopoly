@@ -1,0 +1,57 @@
+@startuml
+title Sequenza: Registrazione, Autenticazione, Gioco, Abbandono (Console, finale)
+
+actor UtenteFinale as UF
+
+== Flusso Registrazione ==
+UF -> AutentificazioneConsole : inserisce dati registrazione
+AutentificazioneConsole -> Sistema : registraGiocatore(nome, username, password)
+Sistema -> DatabaseUtenti : salvaUtente(Utente)
+DatabaseUtenti --> Sistema : conferma salvataggio
+Sistema --> AutentificazioneConsole : conferma registrazione
+
+== Flusso Autenticazione ==
+UF -> AutentificazioneConsole : inserisce credenziali login
+AutentificazioneConsole -> Sistema : autenticaGiocatore(username, password)
+Sistema -> DatabaseUtenti : validaCredenziali(username, password)
+DatabaseUtenti --> Sistema : Utente
+Sistema --> AutentificazioneConsole : Utente autenticato
+AutentificazioneConsole --> MonopolyUMLGFR : restituisce Utente
+
+== Flusso Gioco ==
+MonopolyUMLGFR -> Partita : new Partita(Sistema)
+MonopolyUMLGFR -> Giocatore : new Giocatore(Utente)
+MonopolyUMLGFR -> Partita : associaGiocatori(Giocatore)
+MonopolyUMLGFR -> Partita : avviaPartita()
+MonopolyUMLGFR -> GiocoConsole : new GiocoConsole(Partita)
+
+UF -> GiocoConsole : seleziona "Esegui Turno"
+GiocoConsole -> Partita : eseguiTurno()
+Partita -> Giocatore : lanciaDadi()
+Giocatore --> Partita : risultato dadi
+Partita -> Tabellone : calcolaNuovaPosizione(Giocatore, passi)
+Tabellone --> Partita : Proprietà
+alt Proprietà libera
+  Partita -> Giocatore : acquistaProprietà(Proprietà)
+else Proprietà occupata
+  Partita -> Giocatore : pagaAffitto(Proprietà)
+end
+opt Casella speciale (Probabilità/Imprevisti)
+  Partita -> Carta : applicaA(Giocatore)
+end
+GiocoConsole -> Partita : getStatoGiocatoriAsString()
+GiocoConsole -> Partita : getTabelloneAsText(Giocatore)
+GiocoConsole --> UF : stampa stato e tabellone aggiornato
+
+== Flusso Abbandono ==
+UF -> GiocoConsole : seleziona "Abbandona Partita"
+GiocoConsole -> Partita : abbandonaGiocatoreCorrente()
+Partita -> Giocatore : abbandonaPartita()
+Partita -> Tabellone : rimuoviPedina(Giocatore)
+Partita -> Sistema : notificaAbbandono(Giocatore)
+alt Ultimo giocatore rimasto
+  Partita -> Sistema : notificaFinePartita(Partita)
+end
+GiocoConsole --> UF : mostra messaggio abbandono
+
+@enduml

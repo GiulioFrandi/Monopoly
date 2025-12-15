@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<utenti>
+    <utente>
+        <nome>Giulio</nome>
+        <username>giulioUser</username>
+        <password>password123</password>
+    </utente>
+    <utente>
+        <nome>Maria</nome>
+        <username>mariaUser</username>
+        <password>mariaPass</password>
+    </utente>
+    <utente>
+        <nome>Luca</nome>
+        <username>lucaUser</username>
+        <password>lucaPass</password>
+    </utente>
+</utenti>

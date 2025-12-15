@@ -1,0 +1,154 @@
+@startuml
+title Diagramma delle Classi Semplificato - Architettura completa (aggiornato)
+
+package "Dominio Autenticazione" {
+    class Utente {
+        - nome : String
+        - username : String
+        - password : String
+    }
+
+    class DatabaseUtenti {
+        - resourceName : String
+        - xmlFile : File
+        + caricaUtenti() : List<Utente>
+        + salvaUtente(Utente u) : void
+    }
+
+    class Sistema {
+        - db : DatabaseUtenti
+        + validaCredenziali(String username, String password) : Utente
+        + registraGiocatore(String nome, String username, String password) : void
+        + autenticaGiocatore(String username, String password) : Utente
+        + notificaAbbandono(Giocatore g) : void
+        + notificaFinePartita(Partita p) : void
+    }
+
+    interface LoginSuccessListener {
+        + onLoginSuccess(Utente utente) : void
+    }
+
+    class AutentificazioneUI {
+        - sistema : Sistema
+        - listener : LoginSuccessListener
+        + AutentificazioneUI(Sistema sistema, LoginSuccessListener listener)
+        - initComponents() : void
+    }
+
+    class AutentificazioneConsole {
+        - sistema : Sistema
+        - scanner : Scanner
+        + AutentificazioneConsole(Sistema sistema, LoginSuccessListener listener)
+        + start() : void
+    }
+}
+
+package "Dominio Gioco" {
+    class Giocatore {
+        - utente : Utente
+        - denaro : int
+        - posizione : int
+        - proprietàPossedute : List<Proprietà>
+        + lanciaDadi() : int
+        + muoverePedina(int passi)
+        + acquistaProprietà(Proprietà p)
+        + pagaAffitto(Proprietà p)
+        + abbandonaPartita() : void
+        + getPosizione() : int
+        + getDenaro() : int
+        + getUtente() : Utente
+    }
+
+    class Partita {
+        - giocatori : List<Giocatore>
+        - turnoCorrente : int
+        - tabellone : Tabellone
+        - sistema : Sistema
+        + avviaPartita()
+        + eseguiTurno()
+        + abbandonaGiocatoreCorrente()
+        + terminaPartita()
+        + getGiocatoreCorrente() : Giocatore   // 🔥 nuovo
+        + getStatoGiocatoriAsString() : String
+        + getTabelloneAsText(Giocatore g) : String // 🔥 nuovo
+        + getTabelloneAsHTML() : String
+    }
+
+    class Tabellone {
+        - caselle : List<Proprietà>
+        - mazzoProbabilita : List<Carta>
+        - mazzoImprevisti : List<Carta>
+        + calcolaNuovaPosizione(Giocatore g, int passi) : Proprietà
+        + rimuoviPedina(Giocatore g) : void
+    }
+
+    class Proprietà {
+        - nome : String
+        - valore : int
+        - affitto : int[]
+        - libera : boolean
+        - ipotecata : boolean
+        - edifici : int
+        + calcolaAffitto() : int
+        + isLibera() : boolean
+        + setLibera(boolean libera) : void
+    }
+
+    class Carta {
+        - tipo : String        ' es. "Probabilità", "Imprevisti"
+        - descrizione : String
+        + applicaA(Giocatore g) : void
+    }
+
+    class GiocoUI {
+        - partita : Partita
+        + mostraMessaggio(String msg) : void
+        + aggiornaUI() : void
+    }
+
+    class GiocoConsole {
+        - partita : Partita
+        - scanner : Scanner
+        + GiocoConsole(Partita p)
+        + start() : void
+        + mostraMessaggio(String msg) : void
+    }
+}
+
+package "Applicazione" {
+    class MonopolyUMLGFR {
+        + main(String[] args) : void
+        --
+        // Ora permette di scegliere GUI o Console
+    }
+}
+
+' Relazioni principali
+Utente --> Giocatore : istanzia / associa
+DatabaseUtenti --> Utente : gestisce persistenza
+Sistema --> DatabaseUtenti : utilizza
+Sistema --> Utente : autentica / registra
+Sistema --> Partita : riceve notifiche
+
+AutentificazioneUI --> Sistema : interagisce (GUI)
+AutentificazioneUI --> LoginSuccessListener : callback
+AutentificazioneConsole --> Sistema : interagisce (Console)
+
+Partita --> Giocatore : invia comandi (turno, abbandono)
+Partita --> Tabellone : possiede
+Tabellone *-- Proprietà : contiene (caselle)
+Tabellone o-- Carta : contiene (mazzi Probabilità/Imprevisti)
+Carta ..> Giocatore : influenza (effetti su stato)
+Proprietà --> Giocatore : genera affitto / proprietàPossedute
+
+GiocoUI --> Partita : invoca (eseguiTurno, abbandonaGiocatoreCorrente, reporting)
+GiocoConsole --> Partita : invoca (eseguiTurno, abbandonaGiocatoreCorrente, reporting)
+
+MonopolyUMLGFR --> Sistema
+MonopolyUMLGFR --> AutentificazioneUI : avvia login GUI
+MonopolyUMLGFR --> AutentificazioneConsole : avvia login Console
+MonopolyUMLGFR --> Partita : crea
+MonopolyUMLGFR --> GiocoUI : avvia GUI
+MonopolyUMLGFR --> GiocoConsole : avvia Console
+
+@enduml

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<utenti>
+                        
+    
+    
+    
+    
+    <utente>
+                                                
+        
+        
+        
+        
+        <nome>Giulio</nome>
+                                                
+        
+        
+        
+        
+        <username>giulioUser</username>
+                                                
+        
+        
+        
+        
+        <password>password123</password>
+                                            
+    
+    
+    
+    
+    </utente>
+                        
+    
+    
+    
+    
+    <utente>
+                                                
+        
+        
+        
+        
+        <nome>Maria</nome>
+                                                
+        
+        
+        
+        
+        <username>mariaUser</username>
+                                                
+        
+        
+        
+        
+        <password>mariaPass</password>
+                                            
+    
+    
+    
+    
+    </utente>
+                        
+    
+    
+    
+    
+    <utente>
+                                                
+        
+        
+        
+        
+        <nome>Luca</nome>
+                                                
+        
+        
+        
+        
+        <username>lucaUser</username>
+                                                
+        
+        
+        
+        
+        <password>lucaPass</password>
+                                            
+    
+    
+    
+    
+    </utente>
+                    
+    
+    
+    
+    
+    <utente>
+                                        
+        
+        
+        
+        <nome>Giulio</nome>
+                                        
+        
+        
+        
+        <username>Giulio</username>
+                                        
+        
+        
+        
+        <password>Giulio</password>
+                                    
+    
+    
+    
+    </utente>
+                
+    
+    
+    
+    <utente>
+                                
+        
+        
+        <nome>Laura</nome>
+                                
+        
+        
+        <username>Laura</username>
+                                
+        
+        
+        <password>Laura</password>
+                            
+    
+    
+    </utente>
+            
+    
+    
+    <utente>
+                        
+        
+        <nome>Giulio</nome>
+                        
+        
+        <username>Giulio</username>
+                        
+        
+        <password>Giulio</password>
+                    
+    
+    </utente>
+        
+    
+    <utente>
+                
+        <nome>Giulio</nome>
+                
+        <username>Giulio</username>
+                
+        <password>Password</password>
+            
+    </utente>
+    
+    <utente>
+        <nome>Nuovo</nome>
+        <username>Nuovo</username>
+        <password>Nuovo</password>
+    </utente>
+</utenti>

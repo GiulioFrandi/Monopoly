@@ -1,0 +1,57 @@
+@startuml
+title Sequenza: Registrazione, Autenticazione, Gioco, Abbandono
+
+actor UtenteFinale as UF
+
+== Flusso Registrazione ==
+UF -> AutentificazioneUI : inserisce dati registrazione
+AutentificazioneUI -> Sistema : registraGiocatore(nome, username, password)
+Sistema -> DatabaseUtenti : salvaUtente(Utente)
+DatabaseUtenti --> Sistema : conferma salvataggio
+Sistema --> AutentificazioneUI : conferma registrazione
+
+== Flusso Autenticazione ==
+UF -> AutentificazioneUI : inserisce credenziali login
+AutentificazioneUI -> Sistema : autenticaGiocatore(username, password)
+Sistema -> DatabaseUtenti : validaCredenziali(username, password)
+DatabaseUtenti --> Sistema : Utente
+Sistema --> AutentificazioneUI : Utente autenticato
+AutentificazioneUI -> LoginSuccessListener : onLoginSuccess(Utente)
+
+== Flusso Gioco ==
+LoginSuccessListener -> Partita : new Partita(Sistema)
+LoginSuccessListener -> Giocatore : new Giocatore(Utente)
+LoginSuccessListener -> Partita : associaGiocatori(Giocatore)
+LoginSuccessListener -> Partita : avviaPartita()
+LoginSuccessListener -> GiocoUI : new GiocoUI(Partita)
+
+UF -> GiocoUI : clicca "Esegui Turno"
+GiocoUI -> Partita : eseguiTurno()
+Partita -> Giocatore : lanciaDadi()
+Giocatore --> Partita : risultato dadi
+Partita -> Tabellone : calcolaNuovaPosizione(Giocatore, passi)
+Tabellone --> Partita : Proprietà
+alt Proprietà libera
+  Partita -> Giocatore : acquistaProprietà(Proprietà)
+else Proprietà occupata
+  Partita -> Giocatore : pagaAffitto(Proprietà)
+end
+opt Casella speciale (Probabilità/Imprevisti)
+  Partita -> Carta : applicaA(Giocatore)
+end
+GiocoUI -> Partita : getStatoGiocatoriAsString()
+GiocoUI -> Partita : getTabelloneAsHTML()
+GiocoUI --> UF : aggiorna interfaccia
+
+== Flusso Abbandono ==
+UF -> GiocoUI : clicca "Abbandona Partita"
+GiocoUI -> Partita : abbandonaGiocatoreCorrente()
+Partita -> Giocatore : abbandonaPartita()
+Partita -> Tabellone : rimuoviPedina(Giocatore)
+Partita -> Sistema : notificaAbbandono(Giocatore)
+alt Ultimo giocatore rimasto
+  Partita -> Sistema : notificaFinePartita(Partita)
+end
+GiocoUI --> UF : mostra messaggio abbandono
+
+@enduml
