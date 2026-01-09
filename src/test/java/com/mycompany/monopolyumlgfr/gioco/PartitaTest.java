@@ -50,7 +50,7 @@ public class PartitaTest {
         partita = new Partita(sistema);
         utente = new Utente("Mario Rossi", "mario", "pwd123");
         giocatore = new Giocatore(utente);
-        partita.associaGiocatori(giocatore);
+        partita.aggiungiGiocatore(giocatore);
     }
 
     /**
@@ -84,7 +84,7 @@ public class PartitaTest {
         Utente u = new Utente("Mario Rossi", "mario", "pwd123");
         Giocatore g = new Giocatore(u);
 
-        partita.associaGiocatori(g);
+        partita.aggiungiGiocatore(g);
         partita.avviaPartita();
 
         int posizioneIniziale = g.getPosizione();

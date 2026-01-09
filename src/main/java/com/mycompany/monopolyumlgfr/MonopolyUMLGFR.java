@@ -3,6 +3,7 @@ package com.mycompany.monopolyumlgfr;
 import com.mycompany.monopolyumlgfr.autenticazione.*;
 import com.mycompany.monopolyumlgfr.gioco.*;
 
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -77,20 +78,26 @@ public class MonopolyUMLGFR {
         String scelta = scanner.nextLine();
 
         if ("2".equals(scelta)) {
-            // --- INTERFACCIA CONSOLE ---
+            // --- INTERFACCIA CONSOLE MULTIPLAYER ---
             AutentificazioneConsole loginConsole = new AutentificazioneConsole(sistema);
-            Utente utente = loginConsole.start(); // restituisce l'utente autenticato
 
-            if (utente != null) {
-                Giocatore g = new Giocatore(utente);
+            System.out.println("Login multiplayer (2–6 giocatori).");
+            List<Utente> utenti = loginConsole.startMultiplayer(); // nuovo metodo console per multi login
+
+            if (utenti != null && utenti.size() >= 2) {
                 Partita partita = new Partita(sistema);
-                partita.associaGiocatori(g);
+
+                for (Utente u : utenti) {
+                    Giocatore g = new Giocatore(u);
+                    partita.aggiungiGiocatore(g);
+                }
+
                 partita.avviaPartita();
 
                 GiocoConsole giocoConsole = new GiocoConsole(partita);
                 giocoConsole.start();
             } else {
-                System.out.println("Nessun login effettuato. Programma terminato.");
+                System.out.println("Numero insufficiente di giocatori. Programma terminato.");
             }
 
         } else {
@@ -98,7 +105,7 @@ public class MonopolyUMLGFR {
             AutentificazioneUI loginUI = new AutentificazioneUI(sistema, utente -> {
                 Giocatore g = new Giocatore(utente);
                 Partita partita = new Partita(sistema);
-                partita.associaGiocatori(g);
+                partita.aggiungiGiocatore(g);
                 partita.avviaPartita();
 
                 javax.swing.SwingUtilities.invokeLater(() -> {
