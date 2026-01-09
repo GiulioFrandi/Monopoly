@@ -49,7 +49,7 @@ public class LoginSuccessListenerTest {
         LoginSuccessListener listener = u -> {
             Giocatore g = new Giocatore(u);
             Partita partita = new Partita(sistema);
-            partita.associaGiocatori(g);
+            partita.aggiungiGiocatore(g);
             partita.avviaPartita();
 
             // Verifica che la partita sia attiva e contenga il giocatore

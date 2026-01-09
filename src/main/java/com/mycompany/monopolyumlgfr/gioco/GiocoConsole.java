@@ -100,7 +100,7 @@ public class GiocoConsole {
                     break;
                 case "4":
                     Giocatore corrente = partita.getGiocatoreCorrente();
-                    System.out.println(partita.getTabelloneAsText(corrente));
+                    System.out.println(partita.getTabelloneConGiocatori());
                     break;
                 case "5":
                     running = false;

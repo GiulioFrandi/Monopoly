@@ -51,7 +51,7 @@ public class MonopolyUMLGFRTest {
         Giocatore g = new Giocatore(utente);
 
         Partita partita = new Partita(sistema);
-        partita.associaGiocatori(g);
+        partita.aggiungiGiocatore(g);
         partita.avviaPartita();
 
         assertTrue(partita.getStatoGiocatoriAsString().contains("mario"),
@@ -76,7 +76,7 @@ public class MonopolyUMLGFRTest {
         LoginSuccessListener listener = utente -> {
             Giocatore g = new Giocatore(utente);
             Partita partita = new Partita(sistema);
-            partita.associaGiocatori(g);
+            partita.aggiungiGiocatore(g);
             partita.avviaPartita();
 
             assertTrue(partita.getStatoGiocatoriAsString().contains(utente.getUsername()),
